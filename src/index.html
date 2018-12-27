@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Flag Cloud</title>
+		<link rel="stylesheet" href="icons/css/flag-icon.css"/>
+		<link rel="stylesheet" href="style.css"/>
+		<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+		<script lang="text/javascript">
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', 'db.json');
+			xhr.responseType = "json";
+			xhr.send();
+			xhr.onload = function() {
+				var countries = xhr.response;
+				populate(countries);
+			};
+
+			function populate(countries)
+			{
+				var cloud = document.getElementById("cloud");
+				//keys are not predictable
+				var keys = Object.keys(countries);
+				for (var x = 0; x < keys.length; x++)
+				{
+					var container = document.createElement('div');
+					container.classList.add('grid-item');
+					var flag = document.createElement('img');
+					flag.src = "icons/flags/4x3/" + keys[x] + ".svg";
+					flag.width = 40 * countries[keys[x]];
+					container.appendChild(flag);
+					cloud.appendChild(container);
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<h1>Flag Cloud</h1>
+		<div id="cloud" class="grid">
+		</div>
+	</body>
+</html>
